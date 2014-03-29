@@ -3,7 +3,7 @@
 # vim : set fileencoding=utf8 :
 
 from flask import Blueprint,Flask,request
-from validators import Validator
+#from validators import Validator
 
 
 class Singleton(type):
@@ -69,24 +69,63 @@ class IntersetingData():
                          field_name=field,
                          values=values,*args,**kwargs)
         
-    def getValidator(self):
+    def getValidator(self,feild,default=None,is_list=False):
         pass
+ 
     
     def postValidator(self):
         pass
 
 
-def getParamater(name,default=None):
-        '''
-        优先使用post数据，如果post和get都没有，使用默认设置的值
-        '''
-        res=default
-        if name in request.form:
-            res=request.form['uuid']
-        if name in request.args:
-            if not 'uuid' in request.form:
-                res=request.args['uuid']
-        return res
+def paramater(field,default=None,is_list=False,
+              marge=True,postfirst=True):
+    """
+    
+    """
+    if postfirst:
+        first=request.form;second=request.args
+    else:
+        first=request.args;second=request.form
+    if is_list:
+        if marge:
+            if field in first:
+                if field in second:
+                    return first.getlist(field)+second.getlist(field)
+                else:
+                    return first.getlist(field)
+            elif field in second:
+                return second.getlist(field)
+            else:
+                return default
+        else:
+            return first.getlist(field) \
+                   if field in first else default
+    else:
+        if field in first:
+            return first[field]
+        elif field in second:
+            return second[field]
+        else:
+            return None
+        
+def getParamater(field,default=None,is_list=False):
+    '''
+        返回get数据
+    '''
+    if is_list: 
+        return request.args.getlist(field) \
+            if field in request.args else default
+    return request.args[field] if field in request.args else default
+    
+def postParamater(field,default=None,is_list=False):
+    '''
+        返回get数据
+    '''
+    if is_list: 
+        return request.form.getlist(field) \
+            if field in request.form else default
+    return request.form[field] if field in request.form else default
+
 
 def classroute(url_prefix,app=None):
     def _classroute(cls):
