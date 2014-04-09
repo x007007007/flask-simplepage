@@ -1,7 +1,7 @@
 #!/usr/bin/python2.7
 # -*- coding:utf8 -*-
 # vim : set fileencoding=utf8 :
-import pages
 
+a="hello world"
 
-print pages.blueprints
+blueprint="blueprint"

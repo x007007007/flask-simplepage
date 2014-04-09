@@ -100,7 +100,7 @@ class Row(object):
     def __set__(self,obj,value):
         row=obj._table.query.get(self.key)
         if row:
-
+            pass
         else:
             raise TypeError("%s not in db"%self.key)
     
