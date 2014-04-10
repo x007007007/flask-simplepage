@@ -4,4 +4,4 @@
 import pages
 
 
-print pages.blueprints
+print pages

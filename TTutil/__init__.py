@@ -3,5 +3,5 @@
 # vim : set fileencoding=utf8 :
 
 from BaseForm import BaseConfigForm,BaseObjectForm
-from BaseSCMD import BaseSCMD
-from database import BaseDB,BaseConfigDB,BaseObjectDB
+from BaseSCMD import BaseSCMD,BasePage
+from BaseData import BaseDB,BaseConfigDB,BaseObjectDB
